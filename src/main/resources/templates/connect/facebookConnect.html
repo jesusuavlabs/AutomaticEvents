@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<title>Gestor de eventos personalizado</title>
+		<meta charset="utf-8"></meta>
+		<link rel="icon" type="image/png" href="../img/favicon.png" sizes="16x16" />
+		<link rel="stylesheet" type="text/css" th:href="@{../styles/main.css}" />	
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />	
+	</head>
+	<body>
+		<nav class="navbar navbar-default content container">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <span class="navbar-brand iconImage"></span>
+		    </div>	    
+		  </div>
+		</nav>
+		<div class="content container main-content">
+			<h1 class="text-center bg-danger">Aún no se ha enlazado la aplicación con Facebook</h1>
+			
+			<form action="/connect/facebook" method="POST">
+				<input type="hidden" name="scope" value="user_about_me,user_posts,user_events,public_profile,user_location,user_photos,user_likes" />	
+				<p class="text-center bg-info text-warning lead">Para comenzar con el análisis haga click en el boton para enlazar con su cuenta de usuario de Facebook.</p>
+				<p class="text-center"><button class="btn btn-primary btn-lg" type="submit">Conectar a Facebook</button></p>
+			</form>
+		</div>
+	</body>
+</html>

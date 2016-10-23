@@ -1,0 +1,118 @@
+<html>
+	<head>
+		<title>Gestor de eventos personalizado</title>
+		<meta charset="utf-8"></meta>
+		<link rel="icon" type="image/png" href="img/favicon.png" sizes="16x16" />
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	    <link rel="stylesheet" type="text/css" href="styles/main.css" />
+	    <!--  script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>-->
+	    <script src="http://d3js.org/d3.v2.js"></script>
+	    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+	</head>
+	<body ng-app="myApp" ng-controller="formCtrl">			
+		<nav class="navbar navbar-default content container">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		       <span class="navbar-brand iconImage"></span>
+		    </div>
+		  </div>
+		</nav>
+		<div class="content container main-content">
+			<h1 class="text-center bg-success">{{info}}</h1>
+			<div ng-show="showGetPost">				
+				<p class="text-info bg-info">Pincha en el boton si quieres saber cuáles son los eventos que se adecuan a tus gustos.</p>
+				<button class="btn btn-primary btn-lg" ng-click="getPost()">Obtener eventos</button>				
+			</div>	
+			<div ng-show="showUserInfo">	
+				<div ng-if="user.name == '-1'">				
+					<p class="text-center bg-warning text-warning">Es la primera vez que accedes. Puede llevar un tiempo, ten paciencia...</p>
+					<p class="text-center bg-success text-info">Pincha en el boton si quieres comenzar el proceso completo.</p>
+					<p class="text-center"><button class="btn btn-primary btn-lg" ng-click="getEntireInfo()">Obtención gustos</button></p>
+				</div>
+				<div ng-if="user.name != '-1'">	
+					<div ng-show="showPersonal">
+						<table class="table">
+						  <tr class="row bg-info">
+							<td class="lead">Nombre</td>
+							<td class="lead">Ubicación</td>			    
+						  </tr>	
+						  <tr class="row bg-danger">
+						    <td>{{ user.name }}</td>			  
+						    <td>{{ user.location}}</td>			    
+						  </tr>
+						</table>						
+						<p class="bg-success text-info"></p>
+						<div class="bg-success text-info">
+							<p>La última vez que se actualizó la información fue {{user.lastUpdatedDate | date:'yyyy-MM-dd HH:mm:ss'}}. </p>
+							<p>Pinche en el boton si desea actualizar la información, aunque tenga en cuenta que la operación puede tardar unos minutos.</p>
+						</div>
+						<p class="bg-success text-info"></p>
+						<button class="btn btn-primary btn-lg" ng-click="getEntireInfo()">Nueva obtención gustos</button>
+					</div>
+					<h4 class="text-info bg-info">Y sus categorías preferidas son las que se detallan a continuación. Para ver los eventos asociados pulse el botón asociado:</h4>
+					<table class="table table-hover">
+					  <tr class="row bg-danger" ng-if="user.keywordsCaridad > 0">
+						<td ng-if="user.keywordsCaridad > 0" class="lead"><span class="glyphicon glyphicon-tree-deciduous"></span>Caridad</td>
+						<td ng-if="user.keywordsCaridad > 0"><button ng-click="getEvents('keywordsCaridad')">Ver eventos</button></td>
+					  </tr>
+					  <tr class="row bg-danger" ng-if="user.keywordsCultura > 0">
+						<td ng-if="user.keywordsCultura > 0" class="lead"><span class="glyphicon glyphicon glyphicon-book"></span>Cultura</td>
+						<td ng-if="user.keywordsCultura > 0"><button ng-click="getEvents('keywordsCultura')">Ver eventos</button></td>
+					  </tr>
+					  <tr class="row bg-danger" ng-if="user.keywordsComida > 0">
+						<td ng-if="user.keywordsComida > 0" class="lead"><span class="glyphicon glyphicon-glass"></span>Comida</td>
+						<td ng-if="user.keywordsComida > 0"><button ng-click="getEvents('keywordsComida')">Ver eventos</button></td>
+					  </tr>			  
+					  <tr class="row bg-danger" ng-if="user.keywordsDeporte > 0">
+						<td ng-if="user.keywordsDeporte > 0" class="lead"><span class="glyphicon glyphicon-thumbs-up"></span>Deporte</td>
+						<td ng-if="user.keywordsDeporte > 0"><button ng-click="getEvents('keywordsDeporte')">Ver eventos</button></td>
+					  </tr>
+					  <tr class="row bg-danger" ng-if="user.keywordsViajar > 0">
+						<td ng-if="user.keywordsViajar > 0" class="lead"><span class="glyphicon glyphicon glyphicon-book"></span>Viajar</td>
+						<td ng-if="user.keywordsViajar > 0"><button ng-click="getEvents('keywordsViajar')">Ver eventos</button></td>
+					  </tr>
+					  <tr class="row bg-danger" ng-if="user.keywordsSocial > 0">
+						<td ng-if="user.keywordsSocial > 0" class="lead"><span class="glyphicon glyphicon-user"></span>Social</td>
+						<td ng-if="user.keywordsSocial > 0"><button ng-click="getEvents('keywordsSocial')">Ver eventos</button></td>
+					  </tr>
+					  <tr class="row bg-danger" ng-if="user.keywordsSalud > 0">
+						<td ng-if="user.keywordsSalud > 0" class="lead"><span class="glyphicon glyphicon-apple"></span>Salud</td>
+						<td ng-if="user.keywordsSalud > 0"><button ng-click="getEvents('keywordsSalud')">Ver eventos</button></td>
+					  </tr>	
+					</table>							
+					<div ng-show="showImages">	
+						<h4 class="text-info bg-info">A continuación se mostrará un resumen de los textos analizados</h4>
+						<img alt="Categorias" height="480" width="80%" ng-src="{{srcGustos}}" class="imageonload"></img>
+						<img alt="Analisis de sentimiento" height="480" width="40%" ng-src="{{srcHisto}}" class="imageonload"></img>
+						<img alt="Nube de palabras" height="480" width="40%" ng-src="{{srcWord}}" class="imageonload"></img>
+					</div>						
+				</div>
+				 <p class="bg-success text-info"></p>
+			</div>
+			<div ng-show="showEvents">
+				  <button class="btn btn-primary btn-lg" ng-click="getPost()">Volver</button>
+				  <div ng-repeat="x in events" class="bg-success text-info">
+				    <h2>{{ x.name.text }}</h2>	
+				    <p><a href="{{ x.url }}" >{{ x.url }}</a></p> 	
+				    <img ng-src="{{ x.logo.url }}" ></img>	  
+				    <p>{{ x.description.text }}</p>
+				  </div>
+				  <button class="btn btn-primary btn-lg" ng-click="getPost()">Volver</button>
+			</div>	
+			<modal title="Modal" ng-show="showTimeWait">
+				<div class="bg-warning">
+					<div class="waitImg"></div>
+					<p class="lead text-center text-warning">Cargando informacion</p>
+					<p class="lead text-center text-warning">Esta operación puede tardar unos minutos</p>
+					<p class="lead text-center text-warning">Por favor, espere...</p>			
+				</div>
+			</modal>
+			<div ng-show="showError">
+				<h3>ERROR: {{myError}}</h3>
+				<p class="lead">Código error : {{statuscode}}</p>
+			</div>	
+		</div>
+	<script src="app.js"></script>
+	</body>
+</html>

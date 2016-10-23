@@ -1,0 +1,63 @@
+body {
+	font-family: Georgia, Times, serif;
+    display: flex;
+    flex-direction: column;
+    height: 95%;
+	margin: 10px;
+	overflow-x: hidden;
+	padding-left: 15px;
+}
+
+.main-content{
+   /* By setting flex-grow to 1, the main content will take up 
+   all of the remaining space on the page. 
+   The other elements have flex-grow: 0 and won't contest the free space. */
+   /* 1 flex-grow, 0 flex-shrink, auto flex-basis */
+	flex: 1 0 auto;
+	background: #ffffff;
+}
+
+.iconImage {
+	background: url("../img/logo.png") no-repeat;
+	width: 350px;
+    margin-top: 14px;
+    margin-left: 15px;
+    height: 90%;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.waitImg {
+	background: url("../img/ajax-loader.gif") no-repeat center;
+    height: 60px;
+}
+
+
+.content {
+    margin-left: 40px;
+}
+
+.chart {
+    background: #eee;
+    padding: 3px;
+}
+
+.chart div {
+  width: 0;
+  transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -webkit-transition: all 1s ease-out;
+}
+
+.chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 5px;
+  color: white;
+  box-shadow: 2px 2px 2px #666;
+}
+
